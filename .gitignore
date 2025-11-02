@@ -1,0 +1,10 @@
+.env
+config
+outputs
+
+models/*.csv
+models/imputer_v1
+models/logisticRegressionModel_v1
+models/scaler_v1
+
+__pycache__
