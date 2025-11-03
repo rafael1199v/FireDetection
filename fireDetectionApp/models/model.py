@@ -10,19 +10,23 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle
+import os
+
+os.makedirs(name="outputs", exist_ok=True)
+os.makedirs(name="saved_models", exist_ok=True)
 
 plt.style.use('seaborn-v0_8-darkgrid')
 sns.set_palette("husl")
 
-file_name_rf = 'models/randomForestModel_v3'
-file_name_lr = 'models/logisticRegressionModel_v1'
-file_name_scaler = 'models/scaler_v1'
-file_name_imputer = 'models/imputer_v1'
+file_name_rf = 'saved_models/randomForestModel_v3'
+file_name_lr = 'saved_models/logisticRegressionModel_v1'
+file_name_scaler = 'saved_models/scaler_v1'
+file_name_imputer = 'saved_models/imputer_v1'
 
 feature_columns = ['elevacion_m', 'humedad_suelo', 'nbr', 'ndvi', 'precip_mm', 'tempC', 'viento_ms']
 target_column = 'es_incendio'
 
-df = pd.read_csv("models/bolivia_fires_2023_10k_balanced.csv")
+df = pd.read_csv("data/bolivia_fires_2023_10k_balanced.csv")
 
 print("="*80)
 print("ANÁLISIS EXPLORATORIO DE DATOS".center(80))

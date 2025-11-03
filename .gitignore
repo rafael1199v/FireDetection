@@ -1,10 +1,10 @@
 .env
 config
 outputs
+data
 
-models/*.csv
-models/imputer_v1
-models/logisticRegressionModel_v1
-models/scaler_v1
+saved_models/imputer_v1
+saved_models/logisticRegressionModel_v1
+saved_models/scaler_v1
 
 __pycache__
