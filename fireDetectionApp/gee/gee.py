@@ -1,12 +1,7 @@
+import fireDetectionApp.gee_auth
+
 import ee
 import datetime
-import os
-from dotenv import load_dotenv
-
-load_dotenv(dotenv_path='config/.env')
-
-ee.Authenticate()
-ee.Initialize(project=os.getenv("PROJECT"))
 
 bolivia = ee.FeatureCollection("FAO/GAUL/2015/level0") \
             .filter(ee.Filter.eq('ADM0_NAME', 'Bolivia')) \
