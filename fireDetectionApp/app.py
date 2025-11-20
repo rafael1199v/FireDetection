@@ -66,7 +66,7 @@ def fire_detection_app():
         punto_actual += n_points
     
     print(f"\n{'='*70}")
-    print(f"PROCESO COMPLETADO")
+    print("PROCESO COMPLETADO")
     print(f"Total de imágenes generadas: {len(imagenes_generadas)}")
     for img in imagenes_generadas:
         print(f"  - {img}")

@@ -1,11 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
-from matplotlib.patches import Circle
 import numpy as np
-from scipy.interpolate import griddata
-from PIL import Image
-import io
-import requests
 
 def crear_imagen_mapa_calor(points, probabilidades, nombre_archivo, grupo_num):
     """
@@ -30,8 +25,8 @@ def crear_imagen_mapa_calor(points, probabilidades, nombre_archivo, grupo_num):
     
     lat_center = np.mean(lats)
     lon_center = np.mean(lons)
-    lat_range = max(lats) - min(lats)
-    lon_range = max(lons) - min(lons)
+    # lat_range = max(lats) - min(lats)
+    # lon_range = max(lons) - min(lons)
     
     margin = 0.002
     lat_min, lat_max = min(lats) - margin, max(lats) + margin
@@ -115,7 +110,7 @@ def crear_imagen_mapa_calor(points, probabilidades, nombre_archivo, grupo_num):
         
         grid_prob = np.maximum(grid_prob, contribution)
     
-    print(f"Grid probabilidad después de procesamiento:")
+    print("Grid probabilidad después de procesamiento:")
     print(f"    Min: {grid_prob.min():.4f} ({grid_prob.min()*100:.2f}%)")
     print(f"    Max: {grid_prob.max():.4f} ({grid_prob.max()*100:.2f}%)")
     print(f"    Promedio: {grid_prob.mean():.4f} ({grid_prob.mean()*100:.2f}%)")
@@ -155,15 +150,15 @@ def crear_imagen_mapa_calor(points, probabilidades, nombre_archivo, grupo_num):
     cmap_points = plt.cm.RdYlBu_r
     norm = mcolors.Normalize(vmin=0, vmax=1)
     
-    scatter = ax.scatter(x_coords, y_coords, 
-                        c=probs, 
-                        cmap=cmap_points, 
-                        s=800,
-                        alpha=0.9, 
-                        norm=norm, 
-                        edgecolors='white', 
-                        linewidth=4,
-                        zorder=5)
+    # scatter = ax.scatter(x_coords, y_coords, 
+    #                     c=probs, 
+    #                     cmap=cmap_points, 
+    #                     s=800,
+    #                     alpha=0.9, 
+    #                     norm=norm, 
+    #                     edgecolors='white', 
+    #                     linewidth=4,
+    #                     zorder=5)
     
     ax.scatter(x_coords, y_coords, 
               c=probs, 
@@ -200,7 +195,7 @@ def crear_imagen_mapa_calor(points, probabilidades, nombre_archivo, grupo_num):
     max_prob = max(probs)
     puntos_alerta = sum(1 for p in probs if p >= 0.6)
     
-    titulo = f'DETECCIÓN DE INCENDIOS FORESTALES\n'
+    titulo = 'DETECCIÓN DE INCENDIOS FORESTALES\n'
     titulo += f'Zona #{grupo_num} - Santa Cruz, Bolivia'
     
     ax.set_title(titulo, 
@@ -242,10 +237,10 @@ def crear_imagen_mapa_calor(points, probabilidades, nombre_archivo, grupo_num):
     resumen += f"Riesgo máximo: {max_prob:.0%}\n"
     
     if puntos_alerta > 0:
-        resumen += f"ACCIÓN REQUERIDA"
+        resumen += "ACCIÓN REQUERIDA"
         bg_color = '#ff6b6b'
     else:
-        resumen += f"Todo bajo control"
+        resumen += "Todo bajo control"
         bg_color = '#51cf66'
     
     ax.text(0.02, 0.02, resumen,
