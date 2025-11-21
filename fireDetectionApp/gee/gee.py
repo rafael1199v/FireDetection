@@ -1,12 +1,7 @@
+import fireDetectionApp.gee_auth
+
 import ee
 import datetime
-import os
-from dotenv import load_dotenv
-
-load_dotenv(dotenv_path='config/.env')
-
-ee.Authenticate()
-ee.Initialize(project=os.getenv("PROJECT"))
 
 bolivia = ee.FeatureCollection("FAO/GAUL/2015/level0") \
             .filter(ee.Filter.eq('ADM0_NAME', 'Bolivia')) \
@@ -42,9 +37,11 @@ def get_features_information(features):
 
         tempC = ee.Number(clima_reduced.get("temperature_2m")).subtract(273.15)
         precip_mm = ee.Number(clima_reduced.get("total_precipitation")).multiply(1000)
-        viento_ms = ee.Number(clima_reduced.get("u_component_of_wind_10m")).hypot(
-            ee.Number(clima_reduced.get("v_component_of_wind_10m"))
-        )
+
+        u_wind = ee.Number(clima_reduced.get("u_component_of_wind_10m", 0))
+        v_wind = ee.Number(clima_reduced.get("v_component_of_wind_10m", 0))
+        viento_ms = u_wind.hypot(v_wind)
+        
         humedad_suelo = ee.Number(clima_reduced.get("volumetric_soil_water_layer_1"))
 
         return feature.set({
@@ -146,7 +143,7 @@ def get_batch_fire_points(points_list):
 
     index = 0
 
-    for (lon, lat) in points_list:
+    for (lat, lon) in points_list:
         point = ee.Geometry.Point([lon, lat])
         features.append(ee.Feature(point, {'point_id': index}))
         index += 1

@@ -1,4 +1,5 @@
 .env
+.venv
 config
 outputs
 data
@@ -8,3 +9,5 @@ saved_models/logisticRegressionModel_v1
 saved_models/scaler_v1
 
 __pycache__
+*.png
+map.html

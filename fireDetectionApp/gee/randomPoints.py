@@ -1,12 +1,7 @@
+import fireDetectionApp.gee_auth
+
 import ee
 import random
-import os
-from dotenv import load_dotenv
-
-load_dotenv(dotenv_path='config/.env')
-
-ee.Authenticate()
-ee.Initialize(project=os.getenv("PROJECT"))
 
 def generar_puntos_aleatorios_santa_cruz(n_puntos=5, max_intentos=100):
   
