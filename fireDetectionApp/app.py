@@ -17,6 +17,8 @@ def fire_detection_app():
     points_sc = randomPoints.generar_puntos_aleatorios_santa_cruz(n_puntos=3)
     points_full_matrix = [points_around.generate_points_around(central_point=point,radius_m=EARTH_RADIUS, pointsNumber=5, distance_m=300) for point in points_sc]
     
+    message = "Iniciando proceso de deteccion\n"
+
     print("Obteniendo datos de GEE...")
     points_list = []
     for points_group in points_full_matrix:
@@ -27,6 +29,8 @@ def fire_detection_app():
     data_list = gee.get_batch_fire_points(points_list)
     
     print("Realizando predicciones...")
+    message += "Realizando predicciones..."
+
     df = pd.DataFrame(data_list)
     
     pred = rf_model.predict(df.drop(columns=['point_id', 'lon', 'lat']))
@@ -41,6 +45,9 @@ def fire_detection_app():
     for idx, points_group in enumerate(points_full_matrix, 1):
         print(f"\n{'='*70}")
         print(f"PROCESANDO GRUPO #{idx} ({len(points_group)} puntos)")
+
+        message += f"Grupo #{idx}\n"
+
         print(f"{'='*70}")
         
         n_points = len(points_group)
@@ -49,8 +56,13 @@ def fire_detection_app():
         for i, (point, prob) in enumerate(zip(points_group, probabilidades)):
             lat, lon = point
             estado = "ALERTA" if prob >= 0.60 else "✓ Normal"
+
+            message += "Alerta!!!" if prob >= 0.60 else "Normal\n"
+
             print(f"  Punto {i+1}: Lat={lat:.5f}, Lon={lon:.5f} | "
                   f"Prob={prob:.1%} | {estado}" f"Probabilidad real={prob}")
+            
+            message += f"  Punto {i+1}: Lat={lat:.5f}, Lon={lon:.5f} | Prob={prob:.1%} | {estado}"
         
         nombre_archivo = f'mapa_calor_grupo_{idx}.png'
         archivo_guardado = create_map.crear_imagen_mapa_calor(
@@ -72,4 +84,4 @@ def fire_detection_app():
         print(f"  - {img}")
     print(f"{'='*70}\n")
     
-    return df, imagenes_generadas
+    return df, imagenes_generadas, message
