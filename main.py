@@ -22,6 +22,12 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = "Comandos disponibles:\n/start: Mensaje de bienvenida.\n/detect: Iniciar detección.\n/status: Verificar estado del servicio"
     await update.message.reply_text(message, parse_mode="Markdown")
 
+async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        await update.message.reply_text("Ha ocurrido un error inesperado. Vuelve a intentarlo.")
+    finally:
+        print(context.error)
+
 async def cron_job(context: ContextTypes.DEFAULT_TYPE):
     df, images, message, points_full_matrix = app.fire_detection_app(n_puntos=1, distance_m=500, points_around_number=5)
     station = get_close_station(latitudeStation=points_full_matrix[0][0][0], longitudeStation=points_full_matrix[0][0][1], stations=stations)
@@ -65,13 +71,15 @@ async def detect_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     TOKEN = os.getenv("TELEGRAM_TOKEN")
-    application = ApplicationBuilder().token(TOKEN).build()
+    application = ApplicationBuilder().token(TOKEN).read_timeout(60).write_timeout(60).build()
 
     application.add_handler(CommandHandler("start", start_command))
     application.add_handler(CommandHandler("detect", detect_command))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("status", status_command))
     application.add_handler(CommandHandler("test", test_command))
+
+    application.add_error_handler(error_handler)
 
     application.job_queue.run_repeating(
         callback=cron_job,
