@@ -15,7 +15,7 @@ def load_model():
 def fire_detection_app():
     rf_model = load_model()
     points_sc = randomPoints.generar_puntos_aleatorios_santa_cruz(n_puntos=3)
-    points_full_matrix = [points_around.generate_points_around(central_point=point,radius_m=EARTH_RADIUS, pointsNumber=5, distance_m=300) for point in points_sc]
+    points_full_matrix = [points_around.generate_points_around(central_point=point,radius_m=EARTH_RADIUS, pointsNumber=5, distance_m=500) for point in points_sc]
     
     message = "Iniciando proceso de deteccion\n"
 
