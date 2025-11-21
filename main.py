@@ -16,7 +16,7 @@ async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Servicio en ejecución y sin problemas", parse_mode="Markdown")
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Hola. Soy un bot que ayudará a cuidar Santa Cruz de los incendios forestales.", parse_mode="Markdown")
+    await update.message.reply_text("Hola. Soy un bot que ayudará a cuidar Santa Cruz de los incendios forestales. Usa /help para obtener detalles de los comandos", parse_mode="Markdown")
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = "Comandos disponibles:\n/start: Mensaje de bienvenida.\n/detect: Iniciar detección.\n/status: Verificar estado del servicio"
@@ -85,7 +85,7 @@ def main():
         callback=cron_job,
         interval=600,
         first=30,
-        last= datetime.time(hour=12, minute=0, second=0, tzinfo=BOLIVIA_TZ)
+        last=3600
     )
 
     print("Ejecutando app")

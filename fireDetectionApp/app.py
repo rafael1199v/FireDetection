@@ -17,7 +17,7 @@ def fire_detection_app(n_puntos, distance_m, points_around_number):
     points_sc = randomPoints.generar_puntos_aleatorios_santa_cruz(n_puntos=n_puntos)
     points_full_matrix = [points_around.generate_points_around(central_point=point,radius_m=EARTH_RADIUS, pointsNumber=points_around_number, distance_m=distance_m) for point in points_sc]
     
-    message = "Iniciando proceso de deteccion\n"
+    message = "Iniciando proceso de deteccion.  \n"
 
     print("Obteniendo datos de GEE...")
     points_list = []
@@ -29,7 +29,7 @@ def fire_detection_app(n_puntos, distance_m, points_around_number):
     data_list = gee.get_batch_fire_points(points_list)
     
     print("Realizando predicciones...")
-    message += "Realizando predicciones..."
+    message += "Realizando predicciones...  \n"
 
     df = pd.DataFrame(data_list)
     
@@ -46,7 +46,7 @@ def fire_detection_app(n_puntos, distance_m, points_around_number):
         print(f"\n{'='*70}")
         print(f"PROCESANDO GRUPO #{idx} ({len(points_group)} puntos)")
 
-        message += f"Grupo #{idx}\n"
+        message += f"Grupo #{idx}  \n"
 
         print(f"{'='*70}")
         
@@ -55,14 +55,12 @@ def fire_detection_app(n_puntos, distance_m, points_around_number):
         
         for i, (point, prob) in enumerate(zip(points_group, probabilidades)):
             lat, lon = point
-            estado = "ALERTA" if prob >= 0.60 else "Normal"
-
-            message += "Alerta!!!" if prob >= 0.60 else "Normal\n"
+            estado = "Alerta!!!" if prob >= 0.60 else "Normal"
 
             print(f"  Punto {i+1}: Lat={lat:.5f}, Lon={lon:.5f} | "
                   f"Prob={prob:.1%} | {estado}" f"Probabilidad real={prob}")
             
-            message += f"  Punto {i+1}: Lat={lat:.5f}, Lon={lon:.5f} | Prob={prob:.1%} | {estado}"
+            message += f"Punto {i+1}: Lat={lat:.5f}, Lon={lon:.5f} | Prob={prob:.1%} | {estado}  \n"
         
         nombre_archivo = f'mapa_calor_grupo_{idx}.png'
         archivo_guardado = create_map.crear_imagen_mapa_calor(
