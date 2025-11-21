@@ -12,10 +12,10 @@ def load_model():
     with open(MODEL_PATH, "rb") as f:
         return pickle.load(f)
 
-def fire_detection_app():
+def fire_detection_app(n_puntos, distance_m, points_around_number):
     rf_model = load_model()
-    points_sc = randomPoints.generar_puntos_aleatorios_santa_cruz(n_puntos=3)
-    points_full_matrix = [points_around.generate_points_around(central_point=point,radius_m=EARTH_RADIUS, pointsNumber=5, distance_m=500) for point in points_sc]
+    points_sc = randomPoints.generar_puntos_aleatorios_santa_cruz(n_puntos=n_puntos)
+    points_full_matrix = [points_around.generate_points_around(central_point=point,radius_m=EARTH_RADIUS, pointsNumber=points_around_number, distance_m=distance_m) for point in points_sc]
     
     message = "Iniciando proceso de deteccion\n"
 
@@ -55,7 +55,7 @@ def fire_detection_app():
         
         for i, (point, prob) in enumerate(zip(points_group, probabilidades)):
             lat, lon = point
-            estado = "ALERTA" if prob >= 0.60 else "✓ Normal"
+            estado = "ALERTA" if prob >= 0.60 else "Normal"
 
             message += "Alerta!!!" if prob >= 0.60 else "Normal\n"
 
@@ -84,4 +84,4 @@ def fire_detection_app():
         print(f"  - {img}")
     print(f"{'='*70}\n")
     
-    return df, imagenes_generadas, message
+    return df, imagenes_generadas, message, points_full_matrix

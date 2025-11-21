@@ -1,7 +1,7 @@
 import math
 
 
-def calculate_haversine_distance(firstLatitude, firstLongitude, secondLatitude, secondLongitude, radius, ):
+def calculate_haversine_distance(firstLatitude: float, firstLongitude: float, secondLatitude: float, secondLongitude: float, radius: float):
     """
     a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
     c = 2 ⋅ atan2( √a, √(1-a) )

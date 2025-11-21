@@ -1,6 +1,7 @@
-from fireDetectionApp.domain import FireStation
+from typing import List
+from fireDetectionApp.domain.fire_station import FireStation
 
-stations = [
+stations: List[FireStation] = [
     FireStation(
         -17.764116017703316,
         -63.1483564980915,
