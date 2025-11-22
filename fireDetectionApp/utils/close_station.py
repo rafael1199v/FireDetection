@@ -19,7 +19,7 @@ def get_close_station(latitudeStation: float, longitudeStation: float, stations:
             radius=6_371_000
         )
 
-        print(f"Estacion: {station.name} a una distancia: {distance}")
+        print(f"Estacion: {station.name} a una distancia: {distance} entre {min_distance}")
         print(f"Latidude: {station.latitude}, {station.longitude}")
 
         if distance < min_distance:

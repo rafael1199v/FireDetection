@@ -84,8 +84,7 @@ def main():
     application.job_queue.run_repeating(
         callback=cron_job,
         interval=600,
-        first=30,
-        last=3600
+        first=30
     )
 
     print("Ejecutando app")
