@@ -55,3 +55,19 @@ python ./fireDetectionApp/models/model.py
 En caso de tener errores, en los comandos. Revisa el separador de las rutas de directorios dependiendo del sistema operativo. Además es necesario tener un directorio donde se tengan los datos para el entrenamiento. Ejemplo `data/datos.csv`
 
 ---
+
+
+# Estructura del proyecto
+```
+.
+├── .venv/
+├── data/
+├── config/
+├── fireDetectionApp/
+├── saved_models/
+├── .env.example
+├── .gitignore
+├── main.py
+├── README.md
+└── requirements.txt
+```
